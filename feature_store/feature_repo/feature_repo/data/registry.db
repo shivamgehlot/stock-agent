@@ -1,0 +1,50 @@
+
+A
+#
+__dummy"
+__dummy_idJfeature_repo
+¸ìİÏ¸ş»P¸ìİÏ¸ş»P
+>
+ 
+ticker"tickerJfeature_repo
+¸ìİÏ¸ş»P¸ìİÏ¸ş»P1"$795b078a-0398-4a89-b81c-42650cb8f0e8*¿øİÏ˜Ëœ%2Õ
+’
+stock_featuresfeature_repoticker"
+	return_1d"
+	return_5d"
+
+return_20d"
+ma_ratio"
+volatility_20d"
+
+rsi_14"
+bb_width"
+volume_ratio2€õ$:Ğevent_timestamp*created_timestampZ*(../../../data/processed/features.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢(../../../data/processed/features.parquet’±øİÏ¸ŒÎ€"±øİÏ¸ŒÎ€@b
+
+ticker’latest>
+¸ìİÏĞıŒQ¿øİÏ˜Ëœ%
+€Â¯ğ€ ÚÏ
+€Â¯ğ€ ÚÏRµ
+²
+,feast.infra.online_stores.sqlite.SqliteTable"
+bC:\Users\gehlo\Desktop\ML\Stock_Agent\feature_store\feature_repo\feature_repo\data\online_store.dbfeature_repo_stock_featuresbßevent_timestamp*created_timestampZ*(../../../data/processed/features.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢(../../../data/processed/features.parquetªfeature_repo’·ìİÏÀÿôÔ"¶öİÏøÅ¸ôŠ.
+
+feature_repo
+·ìİÏ€‡®Ö·ìİÏ€‡®Ö’‚
+ÿ
+stock_featuresfeature_repo"feature_view*
+ş
+stock_featuresfeature_repoticker"
+	return_1d"
+	return_5d"
+
+return_20d"
+ma_ratio"
+volatility_20d"
+
+rsi_14"
+bb_width"
+volume_ratio2€£:¼event_timestampZ*(../../../data/processed/features.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢(../../../data/processed/features.parquet’·ìİÏÀÿôÔ"¸ìİÏ¸ş»P@b
+
+ticker’latest
+¸ìİÏĞıŒQ¸ìİÏĞıŒQ2¸ìİÏàî«QB$30b81bcb-7d45-4a9a-8e10-e483c95b84b2

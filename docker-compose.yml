@@ -1,0 +1,90 @@
+version: "3.9"
+
+services:
+
+  # ─── 1. PostgreSQL ───────────────────────────────────────────
+  postgres:
+    image: postgres:15
+    container_name: mlops_postgres
+    environment:
+      POSTGRES_USER: mlflow
+      POSTGRES_PASSWORD: mlflow123
+      POSTGRES_DB: mlflow_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mlflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  #  2. Redis
+  redis:
+    image: redis:7
+    container_name: mlops_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── 3. MLflow ───────────────────────────────────────────────
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.12.1
+    container_name: mlops_mlflow
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
+    environment:
+      MLFLOW_BACKEND_STORE_URI: postgresql://mlflow:mlflow123@postgres:5432/mlflow_db
+      MLFLOW_DEFAULT_ARTIFACT_ROOT: /mlflow/artifacts
+    volumes:
+      - mlflow_artifacts:/mlflow/artifacts
+    command: >
+       sh -c "pip install psycopg2-binary && mlflow server --backend-store-uri postgresql://mlflow:mlflow123@postgres:5432/mlflow_db --default-artifact-root /mlflow/artifacts --host 0.0.0.0 --port 5000"
+
+  # ─── 4. Prometheus ───────────────────────────────────────────
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    container_name: mlops_prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=15d"
+
+  # ─── 5. Grafana ──────────────────────────────────────────────
+  grafana:
+    image: grafana/grafana:10.4.0
+    container_name: mlops_grafana
+    depends_on:
+      - prometheus
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin123
+      GF_DATASOURCES_DEFAULT_URL: http://prometheus:9090
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+
+volumes:
+  postgres_data:
+  redis_data:
+  mlflow_artifacts:
+  prometheus_data:
+  grafana_data:
